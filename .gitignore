@@ -1,9 +1,6 @@
-# Virtual Environment
 venv/
 __pycache__/
 *.pyc
-
-# OS / Editor files
 .DS_Store
 .vscode/
 .idea/
