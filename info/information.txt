@@ -1,0 +1,42 @@
+Question 1: How does LogLens ensure privacy when analyzing sensitive log files?
+Answer:
+
+LogLens uses a two-tier local privacy architecture:
+
+Local Pre-processing: Before any log data is sent to the vector database or LLM, custom regex rules in the LogSanitizer module scrub passwords (password=...), authorization headers (Bearer ...), API keys (sk-...), IP addresses, and emails locally, substituting them with redacted placeholders.
+
+Offline Local Execution: By running Ollama and Qdrant locally, no raw or scrubbed log data ever leaves the local machine over the internet, completely avoiding third-party data leakage risks.
+
+Question 2: Why did you use json.loads with a try-except block in LogParser instead of relying strictly on regex?
+Answer:
+
+Log sources vary widely in software architecture. Modern cloud-native microservices usually emit structured JSON logs, while standard Linux servers or traditional monolithic applications produce plain-text strings or multi-line tracebacks.
+
+Using json.loads inside a try-except block allows LogLens to automatically parse JSON structures into key-value dictionaries when available, while seamlessly falling back to raw string parsing when handling unstructured stack traces.
+
+Question 3: What is the difference between standard Keyword Search and Vector Search (used in Qdrant) for log analysis?
+Answer:
+
+Keyword Search: Matches exact strings (e.g., searching for NullPointerException). It fails if the log message uses slightly different terminology (e.g., Undefined Variable or ReferenceError).
+
+Vector Search (Qdrant): Converts text into mathematical embeddings that capture semantic meaning. Vector search can identify that a Python AttributeError: 'NoneType' object has no attribute and a Java NullPointerException describe the exact same fundamental root cause, retrieving relevant solutions even when keywords don't match explicitly.
+
+Question 4: Why isolate the sanitize() step from the LLM prompt execution instead of asking the LLM to redact sensitive information?
+Answer:
+
+LLMs are non-deterministic and can occasionally fail or "hallucinate," meaning they might miss secrets embedded in unusual log structures. Furthermore, passing raw secrets to an LLM context window exposes those secrets to processing memory. Running a deterministic, local regex pass using Python's re module guarantees that 100% of defined secret patterns are stripped before the text ever reaches an LLM prompt.
+
+Question 5: What is a vector database, and why is it necessary for an application like LogLens?
+Answer:
+
+A vector database stores data as numerical vectors (embeddings) that capture semantic context. Traditional relational databases rely on exact keyword matching, which fails when handling logs because error syntax can vary wildly (e.g., NullPointerException vs NoneType error). A vector database allows LogLens to perform semantic similarity searches, instantly matching a novel error log to historical fixes that mean the same thing, even if the wording is completely different.
+
+Question 6: How does FastEmbed differ from traditional embedding solutions, and why choose it for a local-first tool?
+Answer:
+
+Many embedding libraries require heavy machine learning frameworks like PyTorch or rely on paid cloud APIs (like OpenAI's embedding endpoints). FastEmbed uses ONNX runtime under the hood, providing a lightweight, CPU-optimized solution that runs locally with minimal memory overhead, zero API costs, and complete offline capability—perfect for a privacy-first tool like LogLens.
+
+Question 7: What is the purpose of storing metadata alongside your vector embeddings in Qdrant?
+Answer:
+
+While vector embeddings help the database find what text is semantically relevant, metadata stores structured context about that text (such as source documentation, error types, timestamps, or system components). When Qdrant retrieves a matching error chunk, the associated metadata allows LogLens to display precise reference links, source categories, and confidence tags to the user.
