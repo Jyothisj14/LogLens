@@ -40,3 +40,13 @@ Question 7: What is the purpose of storing metadata alongside your vector embedd
 Answer:
 
 While vector embeddings help the database find what text is semantically relevant, metadata stores structured context about that text (such as source documentation, error types, timestamps, or system components). When Qdrant retrieves a matching error chunk, the associated metadata allows LogLens to display precise reference links, source categories, and confidence tags to the user.
+
+Question 8: What is a RAG pipeline, and why is it superior to just asking an LLM a raw question about logs?
+Answer:
+
+A RAG pipeline bridges external data storage with text generation. If you ask a base LLM about a specific, proprietary error code or internal codebase exception, it relies purely on generalized training memory and may hallucinate a solution. With RAG, LogLens first retrieves exact historical documentation or team runbooks from Qdrant matching that error, injecting real context into the prompt. This ensures the LLM's response is grounded in factual, project-specific data.
+
+Question 9: How does local execution affect data security and latency in LogLens?
+Answer:
+
+Because LogLens runs entirely locally using Qdrant in Docker, FastEmbed for embeddings, Python for regex sanitization, and Ollama for text generation, zero data ever leaves the local machine. This eliminates third-party API costs, protects against cloud data leakage compliance breaches, and allows developers to troubleshoot logs even in air-gapped or offline environments.
