@@ -1,0 +1,109 @@
+{
+  "diagnosis": {
+    "error_keyword": "Partition rebalance failed",
+    "technology": "Kafka",
+    "version": "",
+    "root_cause": "The partition rebalance operation timed out, indicating a failure to rebalance the partitions in a timely manner.",
+    "severity": "CRITICAL",
+    "recommended_fix": [
+      "Restart the Kafka consumer",
+      "Verify Kafka configuration"
+    ],
+    "search_terms": [
+      "KafkaConsumer",
+      "Partition rebalance failed"
+    ],
+    "tags": [
+      "Kafka",
+      "Consumer",
+      "Error"
+    ]
+  },
+  "resources": {
+    "documentation": [
+      {
+        "title": "Consumer Rebalance Protocol | Apache Kafka",
+        "url": "https://kafka.apache.org/43/operations/consumer-rebalance-protocol/",
+        "source": "kafka.apache.org",
+        "description": "Apache Kafka 5.0: KafkaConsumer defaults to Consumer protocol, while still supporting Classic Apache Kafka 6.0: KafkaConsumer only supports Consumer as rebalance protocol, while the broker still supports Classic for backward compatibility.",
+        "score": 0.773,
+        "verification": "verified"
+      },
+      {
+        "title": "ConsumerRebalanceListener (kafka 2.0.0 API)",
+        "url": "https://kafka.apache.org/20/javadoc/org/apache/kafka/clients/consumer/ConsumerRebalanceListener.html",
+        "source": "kafka.apache.org",
+        "description": "Parameters: partitions - The list of partitions that were assigned to the consumer on the last rebalance Throws: WakeupException - If raised from a nested call to KafkaConsumer InterruptException - If raised from a nested call to KafkaConsumer onPartitionsAssigned",
+        "score": 0.707,
+        "verification": "verified"
+      },
+      {
+        "title": "Consumer Rebalance Protocol | Apache Kafka",
+        "url": "https://kafka.apache.org/41/operations/consumer-rebalance-protocol/",
+        "source": "kafka.apache.org",
+        "description": "When the first consumer using the new consumer rebalance protocol joins the group, the group is converted from Classic to Consumer, and the classic rebalance protocol is interoperated to work with the new consumer rebalance protocol. This is only possible when the classic group uses an assignor that does not embed custom metadata.",
+        "score": 0.67,
+        "verification": "verified"
+      },
+      {
+        "title": "KafkaConsumer (kafka 2.2.0 API) - Apache Kafka",
+        "url": "https://kafka.apache.org/22/javadoc/org/apache/kafka/clients/consumer/KafkaConsumer.html",
+        "source": "kafka.apache.org",
+        "description": "A client that consumes records from a Kafka cluster. This client transparently handles the failure of Kafka brokers, and transparently adapts as topic partitions it fetches migrate within the cluster. This client also interacts with the broker to allow groups of consumers to load balance consumption using consumer groups. The consumer maintains TCP connections to the necessary brokers to fetch ...",
+        "score": 0.637,
+        "verification": "verified"
+      },
+      {
+        "title": "KafkaConsumer (clients 0.9.0.1 API) - Apache Kafka",
+        "url": "https://kafka.apache.org/090/javadoc/org/apache/kafka/clients/consumer/KafkaConsumer.html",
+        "source": "kafka.apache.org",
+        "description": "A Kafka client that consumes records from a Kafka cluster. It will transparently handle the failure of servers in the Kafka cluster, and transparently adapt as partitions of data it fetches migrate within the cluster. This client also interacts with the server to allow groups of consumers to load balance consumption using consumer groups (as described below). The consumer maintains TCP ...",
+        "score": 0.637,
+        "verification": "verified"
+      }
+    ],
+    "courses": [],
+    "videos": [
+      {
+        "title": "Kafka Consumer Explained: Poll Loop, Consumer Groups, Offsets, Rebalancing (Full Tutorial)",
+        "url": "https://www.youtube.com/watch?v=LgXrLFma6hU",
+        "source": "youtube.com",
+        "description": "Channel: Tech with Shavaz | Duration: 46 min",
+        "score": 0.453,
+        "verification": "metadata_found"
+      },
+      {
+        "title": "Kafka Consumer Rebalancing Explained | Fix Long Running Consumers & Duplicate Message Processing",
+        "url": "https://www.youtube.com/watch?v=wcKRiNSedWI",
+        "source": "youtube.com",
+        "description": "Channel: easy coding ai | Duration: 19 min",
+        "score": 0.453,
+        "verification": "metadata_found"
+      },
+      {
+        "title": "Apache Kafka Consumer Lag Analysis in-depth intuition",
+        "url": "https://www.youtube.com/watch?v=-Dwb6RhNDNU",
+        "source": "youtube.com",
+        "description": "Channel: Knowledge Amplifier | Duration: 14 min",
+        "score": 0.453,
+        "verification": "metadata_found"
+      },
+      {
+        "title": "Managing Multiple Consumers on a Single Kafka Partition | Java Kafka Code",
+        "url": "https://www.youtube.com/watch?v=gfbIEcrKKC8",
+        "source": "youtube.com",
+        "description": "Channel: Ram N Java | Duration: 6 min",
+        "score": 0.453,
+        "verification": "metadata_found"
+      },
+      {
+        "title": "You Don’t Understand Kafka Consumers",
+        "url": "https://www.youtube.com/watch?v=QVEh9okdv-8",
+        "source": "youtube.com",
+        "description": "Channel: CreativeDirectorOfCode | Duration: 11 min",
+        "score": 0.317,
+        "verification": "metadata_found"
+      }
+    ]
+  }
+}
